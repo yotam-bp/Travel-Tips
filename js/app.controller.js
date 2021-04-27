@@ -32,8 +32,6 @@ function addEventListenrs() {
     document.querySelector('.search-location-btn').addEventListener('click', (ev) => {
         ev.preventDefault();
         const val = document.querySelector('.search-location').value;
-        console.log('search');
-        console.log(val)
         searchLoc(val)
     })
 
@@ -70,8 +68,8 @@ function getPosition() {
 
 
 
-function renderLocs(locs) {
-    // console.log('locs ', locs);
+function renderLocs() {
+    var locs =  locService.loadLocs()// console.log('locs ', locs);
     const elLocsTable = document.querySelector('.location-table');
     const loc = locs.map(loc => {
         return `
@@ -106,5 +104,12 @@ function deleteLoc(ev) {
 }
 
 function searchLoc(val){
-    mapService.getGeocode(val);
+    mapService.getGeocode(val)
+    .then(res =>{
+        const coords = res.geometry.location;
+        mapService.panTo(coords.lat, coords.lng);
+        const locationName = res.formatted_address
+        locService._addLocation(coords, locationName);
+        renderLocs()
+    })
 }

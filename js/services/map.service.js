@@ -53,17 +53,10 @@ function _connectGoogleApi() {
 
 
 function getGeocode(val) {
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${API_KEY}`)
+    console.log('val ', val)
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${val}&key=${API_KEY}`)
         .then(res => {
-            console.log('val ', val)
-            const results = res.data.results[0];
-            const formattedAddress = res.data.results[0].formatted_address;
-            let address = res.data.results[0].address_components[0];
-            address = val;
-            console.log('results ', results)
-            // console.log('formattedAddress ', formattedAddress)
-            console.log('addressComponents ', address)
-            return formattedAddress
+             return res.data.results[0];
         })
         .catch(error => console.log('error: ', error))
 }
