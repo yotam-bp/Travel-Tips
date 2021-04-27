@@ -17,7 +17,7 @@ function initMap(lat = 32.0831488, lng = 34.783232) {
                 center: { lat, lng },
                 zoom: 15
             })
-            console.log('Map!', gMap);
+            return gMap
         })
 }
 

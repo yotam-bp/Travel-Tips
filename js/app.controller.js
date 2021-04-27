@@ -1,23 +1,35 @@
-import {storageService} from './services/storage.service.js'
+import { storageService } from './services/storage.service.js'
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
 window.onload = onInit;
+let gMap;
 
 function onInit() {
-    addEventListenrs();
     mapService.initMap()
-        .then(() => {
-            console.log('Map is ready');
+    .then((map) => {
+        console.log('Map is ready');
+        gMap = map
+        addEventListenrs();
         })
         .catch(() => console.log('Error: cannot init map'));
+
 }
 
 function addEventListenrs() {
-    document.querySelector('#map').addEventListener('click', (ev) => {
-        console.log('clicking on Map');
-        mapService.panTo(32.0749831, 34.9120554);
+    //google Maps function!
+        gMap.addListener('click', (ev) => {
+        mapService.panTo(ev.latLng.lat(), ev.latLng.lng());
     })
+
+    // gMap.addListener('contextmenu', (ev) => {
+    //     mapService.addMarker({lat:ev.latLng.lat(), lng: ev.latLng.lng()});
+    // })
+    //////////////////////////
+    document.querySelector('.search-location-btn').addEventListener('click', (ev) => {
+        console.log('search');
+    })
+
     document.querySelector('.btn-pan').addEventListener('click', (ev) => {
         console.log('Panning the Map');
         mapService.panTo(35.6895, 139.6917);
@@ -29,7 +41,6 @@ function addEventListenrs() {
     document.querySelector('.btn-get-locs').addEventListener('click', (ev) => {
         locService.getLocs()
             .then(locs => {
-                console.log('Locations:', locs)
                 document.querySelector('.locs').innerText = JSON.stringify(locs)
             })
 
@@ -40,6 +51,7 @@ function addEventListenrs() {
                 console.log('User position is:', pos.coords);
                 document.querySelector('.user-pos').innerText =
                     `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+                mapService.panTo(pos.coords.latitude, pos.coords.longitude);
             })
             .catch(err => {
                 console.log('err!!!', err);
@@ -55,4 +67,3 @@ function getPosition() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
-
