@@ -1,3 +1,4 @@
+import {storageService} from './services/storage.service.js'
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
@@ -13,10 +14,10 @@ function onInit() {
 }
 
 function addEventListenrs() {
-    // document.querySelector('#map').addEventListener('click', (ev) => {
-    //     console.log('clicking on Map');
-    //     mapService.panTo(32.0749831, 34.9120554);
-    // })
+    document.querySelector('#map').addEventListener('click', (ev) => {
+        console.log('clicking on Map');
+        mapService.panTo(32.0749831, 34.9120554);
+    })
     document.querySelector('.btn-pan').addEventListener('click', (ev) => {
         console.log('Panning the Map');
         mapService.panTo(35.6895, 139.6917);
