@@ -67,7 +67,7 @@ function getPosition() {
 
 
 function renderLocs(locs) {
-    console.log('locs ', locs);
+    // console.log('locs ', locs);
     const elLocsTable = document.querySelector('.location-table');
     const loc = locs.map(loc => {
         return `
@@ -75,13 +75,17 @@ function renderLocs(locs) {
         <h4>${loc.name}</h4>
         <div class="loc-btns-container">
         <button data-lat="${loc.lat}" data-lng="${loc.lng}" class="go-to-loc">GO</button>
-        <button class="delete-loc">DELETE</button>
+        <button data-id="${loc.id}" class="delete-loc">DELETE</button>
         </div>
         </div>`
     });
     elLocsTable.innerHTML = loc.join('')
+    // go to location
     const elBtns = document.querySelectorAll('.go-to-loc');
     elBtns.forEach(elBtn => elBtn.addEventListener('click', goToLoc))
+    // delete location
+    const elDeleteBtns = document.querySelectorAll('.delete-loc');
+    elDeleteBtns.forEach(elBtn => elBtn.addEventListener('click', deleteLoc))
 }
 
 
@@ -91,4 +95,11 @@ function goToLoc(ev) {
     console.log('lat ', lat)
     console.log('lng ', lng)
     mapService.panTo(lat, lng);
+}
+
+function deleteLoc(ev) {
+    const btnId = ev.target.dataset.id
+    console.log(btnId)
+    locService.deleteLocFromStorage(btnId);
+    locService.getLocs().then(renderLocs)
 }

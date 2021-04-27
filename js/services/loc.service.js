@@ -1,7 +1,8 @@
 import { storageService } from './storage.service.js'
 
 export const locService = {
-    getLocs
+    getLocs,
+    deleteLocFromStorage
 }
 const KEY = 'locations'
 _loadLocs()
@@ -20,7 +21,7 @@ function getLocs() {
         setTimeout(() => {
             resolve(gLocs);
             // storageService.saveToStorage(KEY, gLocs)
-        }, 2000)
+        }, 200)
     });
 }
 
@@ -29,4 +30,13 @@ function _loadLocs() {
     const myLocs = storageService.loadFromStorage(KEY)
     if (!myLocs || !myLocs.length) gLocs = []
     else gLocs = myLocs
+}
+
+function deleteLocFromStorage(idToDelete) {
+    console.log(+idToDelete)
+    gLocs.map((loc, idx) => {
+        if (loc.id === +idToDelete) gLocs.splice(idx, 1);
+        return
+    })
+    console.log(gLocs) // checking if loc is deleted from gLocs
 }
