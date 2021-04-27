@@ -31,6 +31,7 @@ function addEventListenrs() {
     //////////////////////////
     document.querySelector('.search-location-btn').addEventListener('click', (ev) => {
         console.log('search');
+        searchLoc()
     })
 
     document.querySelector('.btn-pan').addEventListener('click', (ev) => {
@@ -102,4 +103,8 @@ function deleteLoc(ev) {
     console.log(btnId)
     locService.deleteLocFromStorage(btnId);
     locService.getLocs().then(renderLocs)
+}
+
+function searchLoc(){
+
 }
