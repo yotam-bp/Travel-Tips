@@ -30,8 +30,11 @@ function addEventListenrs() {
     // })
     //////////////////////////
     document.querySelector('.search-location-btn').addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const val = document.querySelector('.search-location').value;
         console.log('search');
-        searchLoc()
+        console.log(val)
+        searchLoc(val)
     })
 
     document.querySelector('.btn-pan').addEventListener('click', (ev) => {
@@ -93,18 +96,15 @@ function renderLocs(locs) {
 function goToLoc(ev) {
     const lat = ev.target.dataset.lat
     const lng = ev.target.dataset.lng
-    console.log('lat ', lat)
-    console.log('lng ', lng)
     mapService.panTo(lat, lng);
 }
 
 function deleteLoc(ev) {
     const btnId = ev.target.dataset.id
-    console.log(btnId)
     locService.deleteLocFromStorage(btnId);
     locService.getLocs().then(renderLocs)
 }
 
-function searchLoc(){
-
+function searchLoc(val){
+    mapService.getGeocode(val);
 }

@@ -2,7 +2,8 @@
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    getGeocode//not sure if it's the right place for this function
 }
 
 const API_KEY = 'AIzaSyBnQ0ebntiaqnKC_liI8ybwWzqTD68V02w'; //TODO: Enter your API Key
@@ -50,7 +51,19 @@ function _connectGoogleApi() {
     })
 }
 
-function _googleGeocodeApi() {
+
+function getGeocode(val) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${API_KEY}`)
-        .then(res => res.data)
+        .then(res => {
+            console.log('val ', val)
+            const results = res.data.results[0];
+            const formattedAddress = res.data.results[0].formatted_address;
+            let address = res.data.results[0].address_components[0];
+            address = val;
+            console.log('results ', results)
+            // console.log('formattedAddress ', formattedAddress)
+            console.log('addressComponents ', address)
+            return formattedAddress
+        })
+        .catch(error => console.log('error: ', error))
 }
