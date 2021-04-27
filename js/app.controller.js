@@ -1,8 +1,9 @@
-import {storageService} from './services/storage.service.js'
+import { storageService } from './services/storage.service.js'
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
 window.onload = onInit;
+
 
 function onInit() {
     addEventListenrs();
@@ -11,6 +12,9 @@ function onInit() {
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
+
+    locService.getLocs()
+        .then(renderLocs)
 }
 
 function addEventListenrs() {
@@ -25,14 +29,6 @@ function addEventListenrs() {
     document.querySelector('.btn-add-marker').addEventListener('click', (ev) => {
         console.log('Adding a marker');
         mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
-    })
-    document.querySelector('.btn-get-locs').addEventListener('click', (ev) => {
-        locService.getLocs()
-            .then(locs => {
-                console.log('Locations:', locs)
-                document.querySelector('.locs').innerText = JSON.stringify(locs)
-            })
-
     })
     document.querySelector('.btn-user-pos').addEventListener('click', (ev) => {
         getPosition()
@@ -56,3 +52,31 @@ function getPosition() {
     })
 }
 
+
+
+function renderLocs(locs) {
+    console.log('locs ', locs);
+    const elLocsTable = document.querySelector('.location-table');
+    const loc = locs.map(loc => {
+        return `
+        <div class="loc-container">
+        <h4>${loc.name}</h4>
+        <div class="loc-btns-container">
+        <button data-lat="${loc.lat}" data-lng="${loc.lng}" class="go-to-loc">GO</button>
+        <button class="delete-loc">DELETE</button>
+        </div>
+        </div>`
+    });
+    elLocsTable.innerHTML = loc.join('')
+    const elBtns = document.querySelectorAll('.go-to-loc');
+    elBtns.forEach(elBtn => elBtn.addEventListener('click', goToLoc))
+}
+
+
+function goToLoc(ev) {
+    const lat = ev.target.dataset.lat
+    const lng = ev.target.dataset.lng
+    console.log('lat ', lat)
+    console.log('lng ', lng)
+    mapService.panTo(lat, lng);
+}
