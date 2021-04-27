@@ -1,4 +1,5 @@
 import { storageService } from './storage.service.js'
+import { utilService } from '../util/util.js'
 
 export const locService = {
     getLocs,
@@ -20,7 +21,7 @@ var gLocs = [
 
 function _addLocation(coords, locationName) {
     const location = {
-        id: 6,
+        id: utilService.makeId(),
         name: locationName,
         lat: coords.lat,
         lng: coords.lng
