@@ -5,6 +5,7 @@ export const mapService = {
     panTo
 }
 
+const API_KEY = 'AIzaSyBnQ0ebntiaqnKC_liI8ybwWzqTD68V02w'; //TODO: Enter your API Key
 var gMap;
 
 function initMap(lat = 32.0831488, lng = 34.783232) {
@@ -15,7 +16,7 @@ function initMap(lat = 32.0831488, lng = 34.783232) {
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
                 center: { lat, lng },
-                zoom: 15
+                zoom: 10
             })
             return gMap
         })
@@ -39,14 +40,26 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyBnQ0ebntiaqnKC_liI8ybwWzqTD68V02w'; //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
     document.body.append(elGoogleApi);
-
     return new Promise((resolve, reject) => {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+
+// function _connectGoogleApi() {
+//     if (window.google) return Promise.resolve()
+//     var elGoogleApi = document.createElement('script');
+//     elGoogleApi.src = `https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=${API_KEY}`;
+//     elGoogleApi.async = true;
+//     document.body.append(elGoogleApi);
+
+//     return new Promise((resolve, reject) => {
+//         elGoogleApi.onload = resolve;
+//         elGoogleApi.onerror = () => reject('Google script failed to load')
+//     })
+// }
+
