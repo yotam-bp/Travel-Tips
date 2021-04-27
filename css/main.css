@@ -1,0 +1,76 @@
+@font-face {
+  font-family: roboto-bold;
+  src: url("../fonts/roboto-bold.ttf");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: #3b3b3b;
+}
+
+body {
+  font-size: 1rem;
+  margin: 0;
+  background-color: #f68658;
+  color: #0a0001;
+  font-family: roboto-bold, sans-serif;
+}
+
+button {
+  background-color: #827e7a;
+  color: #e5e5e7;
+}
+
+.main-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-container {
+  flex-direction: column;
+}
+
+.search-location {
+  background-color: #d9d9d9;
+  outline: none;
+}
+
+.search-container > * {
+  padding: 5px;
+}
+
+button,
+.search-location {
+  border: 1px solid #707288;
+}
+
+::placeholder {
+  color: #f3f3f3;
+}
+
+.curr-location-container {
+  justify-content: space-between;
+}
+
+.main-container,
+.btns-container {
+  margin-top: 20px;
+}
+
+.weather-container {
+  background-color: #4f81bc;
+  border: 1px solid #3d5a8a;
+}
+
+/* HELPERS */
+
+.container {
+  margin: 0 50px;
+}
+.flex {
+  display: flex;
+}
